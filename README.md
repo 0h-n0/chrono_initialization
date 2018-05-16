@@ -22,4 +22,4 @@ model = chrono_init(model)
 
 ### Reference
 
-* https://openreview.net/forum?id=SJcKhk-Ab
+* https://arxiv.org/abs/1804.11188

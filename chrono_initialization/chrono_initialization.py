@@ -4,7 +4,7 @@ import torch
 
 
 def init(rnn: torch.nn.Module, Tmax=None, Tmin=1):
-    '''chrono initialization(Ref: https://openreview.net/forum?id=SJcKhk-Ab)
+    '''chrono initialization(Ref: https://arxiv.org/abs/1804.11188)
     '''
     
     assert isinstance(Tmin, numbers.Number), 'Tmin must be numeric.'
@@ -14,10 +14,7 @@ def init(rnn: torch.nn.Module, Tmax=None, Tmin=1):
             n = p.nelement()
             hidden_size = n // 4            
             p.data.fill_(0)
-            # all gate bias = -log(uniform(Tmix, Tmax) - 1)
-            if isinstance(rnn,
-                          (torch.nn.LSTM, torch.nn.LSTMCell,
-                           torch.nn.GRU, torch.nn.GRUCell)):
+            if isinstance(rnn, (torch.nn.LSTM, torch.nn.LSTMCell)):
                 p.data[hidden_size: 2*hidden_size] = \
                     torch.log(torch.nn.init.uniform_(p.data[0: hidden_size], 1, Tmax - 1))
                 # forget gate biases = log(uniform(1, Tmax-1))

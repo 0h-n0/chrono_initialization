@@ -20,9 +20,8 @@ setup_requires = [
 ]
 
 install_requires = [
-    'scikit-learn',
-    'tqdm',
 ]
+
 test_require = [
     'pytest-cov',
     'pytest-html',
