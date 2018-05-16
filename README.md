@@ -12,10 +12,10 @@
 from chrono_initialization import init as chrono_init
 
 model = LSTM(...)
-chrono_init(model)
+model = chrono_init(model)
 
 model = GRU(...)
-chrono_init(model)
+model = chrono_init(model)
 
 ```
 
