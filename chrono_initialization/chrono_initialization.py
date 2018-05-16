@@ -9,8 +9,6 @@ def init(rnn: torch.nn.Module, Tmax=None, Tmin=1):
     
     assert isinstance(Tmin, numbers.Number), 'Tmin must be numeric.'
     assert isinstance(Tmax, numbers.Number), 'Tmax must be numeric.'    
-    Tmin = 1/Tmin
-    Tmax = 1/Tmax
     for name, p in rnn.named_parameters():
         if 'bias' in name:
             n = p.nelement()
