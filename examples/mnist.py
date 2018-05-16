@@ -9,12 +9,13 @@ from torchvision import datasets, transforms
 from chrono_initialization import init as chrono_init
 
 class Net(nn.Module):
-    def __init__(self):
+    def __init__(self, no_chrono_init=False):
         super(Net, self).__init__()
         self.lstm = nn.LSTM(28, 10, 2, bidirectional=True, batch_first=True)
         self.fc1 = nn.Linear(20*28, 50)
         self.fc2 = nn.Linear(50, 10)
-        #self.lstm = chrono_init(self.lstm, 1, 28)
+        if not no_chrono_init:
+            self.lstm = chrono_init(self.lstm, 1, 28)
 
     def forward(self, x):
         B, C, H, W = x.size()
@@ -79,6 +80,9 @@ def main():
                         help='random seed (default: 1)')
     parser.add_argument('--log-interval', type=int, default=10, metavar='N',
                         help='how many batches to wait before logging training status')
+    parser.add_argument('--no-chrono-init', default=False, action='store_true',
+                        help='turn off chrono initialization.')
+    
     args = parser.parse_args()
     use_cuda = not args.no_cuda and torch.cuda.is_available()
 
@@ -101,8 +105,8 @@ def main():
                        ])),
         batch_size=args.test_batch_size, shuffle=True, **kwargs)
 
-
-    model = Net().to(device)
+    
+    model = Net(args.no_chrono_init).to(device)
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
 
     for epoch in range(1, args.epochs + 1):
